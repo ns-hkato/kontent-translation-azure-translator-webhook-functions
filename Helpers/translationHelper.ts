@@ -24,11 +24,11 @@ async function translateWithAzure(
     text: string | number | SharedModels.ReferenceObject[]
   }
 
-  const translatorTextData: TranslationData[] = elementValues.map(element => ({
+  const translatorTextData: TranslationData[] = elementValues.map((element) => ({
     text: element.value,
   }))
 
-  const translatorTextUrl = `${Constants.azureTranslatorTextEndpoint}translate?api-version=3.0&textType=html&from=en&to=${languageCodename}`
+  const translatorTextUrl = `${Constants.azureTranslatorTextEndpoint}translate?api-version=3.0&textType=html&from=ja&to=${languageCodename}`
 
   const response = await axios.post(translatorTextUrl, translatorTextData, {
     headers: {

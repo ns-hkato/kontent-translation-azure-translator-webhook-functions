@@ -40,11 +40,7 @@ export async function changeWorkflowStep(
     const isPublished = languageVariant.workflowStep.id === Constants.kontentWorkflowStepIdPublished
 
     if (isPublished) {
-      await client
-        .createNewVersionOfLanguageVariant()
-        .byItemId(contentItemId)
-        .byLanguageId(languageId)
-        .toPromise()
+      await client.createNewVersionOfLanguageVariant().byItemId(contentItemId).byLanguageId(languageId).toPromise()
     }
   } else {
     const response = await client
@@ -65,19 +61,13 @@ export async function changeWorkflowStep(
 }
 
 export async function getContentItemById(contentItemId: string): Promise<ContentItemModels.ContentItem> {
-  const clientReponse = await client
-    .viewContentItem()
-    .byItemId(contentItemId)
-    .toPromise()
+  const clientReponse = await client.viewContentItem().byItemId(contentItemId).toPromise()
 
   return clientReponse.data
 }
 
 export async function getContentType(contentTypeId: string): Promise<ContentTypeModels.ContentType> {
-  const clientResponse = await client
-    .viewContentType()
-    .byTypeId(contentTypeId)
-    .toPromise()
+  const clientResponse = await client.viewContentType().byTypeId(contentTypeId).toPromise()
 
   return clientResponse.data
 }
@@ -126,19 +116,14 @@ export async function upsertLanguageVariant(
   languageId: string,
   elements: LanguageVariantModels.ILanguageVariantElement[]
 ): Promise<void> {
-  await client
-    .upsertLanguageVariant()
-    .byItemId(itemId)
-    .byLanguageId(languageId)
-    .withElements(elements)
-    .toPromise()
+  await client.upsertLanguageVariant().byItemId(itemId).byLanguageId(languageId).withElements(elements).toPromise()
 }
 
 async function getTranslationElement(
   languageVariant: LanguageVariantModels.ContentItemLanguageVariant
 ): Promise<ElementModels.ContentItemElement> {
   const translationElementModel = await getTranslationElementModelFromSnippet()
-  const translationElement = languageVariant.elements.find(e => e.element.id === translationElementModel.id)
+  const translationElement = languageVariant.elements.find((e) => e.element.id === translationElementModel.id)
   if (translationElement) {
     return translationElement
   } else {
@@ -152,7 +137,7 @@ async function getTranslationElementModelFromSnippet(): Promise<ElementModels.El
   }
 
   const snippetTypeModel = await getSnippetTypeModelByCodename(Constants.kontentTranslationSnippetCodename)
-  const translationElementModel = snippetTypeModel.elements.find(e => {
+  const translationElementModel = snippetTypeModel.elements.find((e) => {
     return e.codename === Constants.kontentTranslationElementCodename
   })
 
@@ -164,10 +149,7 @@ async function getTranslationElementModelFromSnippet(): Promise<ElementModels.El
 }
 
 async function getSnippetTypeModelByCodename(codename: string): Promise<ContentTypeModels.ContentType> {
-  const result = await client
-    .viewContentTypeSnippet()
-    .byTypeCodename(codename)
-    .toPromise()
+  const result = await client.viewContentTypeSnippet().byTypeCodename(codename).toPromise()
 
   return result.data
 }
@@ -178,7 +160,7 @@ export async function updateTranslationDetails(
 ): Promise<void> {
   const t9nElement: LanguageVariantModels.ILanguageVariantElement = {
     element: {
-      codename: `${Constants.kontentTranslationSnippetCodename}__${Constants.kontentTranslationElementCodename}`,
+      codename: `${Constants.kontentTranslationElementCodename}`,
     },
     value: JSON.stringify(t9nDetails),
   }
@@ -200,7 +182,7 @@ export function updateTimestamp(
   currentLanguageId: string,
   timestamp: Models.Timestamps
 ): void {
-  t9nDetails.selectedLanguages.forEach(l => {
+  t9nDetails.selectedLanguages.forEach((l) => {
     const languageIsCurrentLanguage = l.id === currentLanguageId
     if (languageIsCurrentLanguage) {
       switch (timestamp) {
@@ -217,5 +199,5 @@ export function updateTimestamp(
 }
 
 export function getNextLanguage(t9nDetails: Models.TranslationDetails): Models.LanguageDetails | undefined {
-  return t9nDetails.selectedLanguages.find(l => l.completed === null)
+  return t9nDetails.selectedLanguages.find((l) => l.completed === null)
 }

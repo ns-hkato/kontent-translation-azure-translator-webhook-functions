@@ -1,0 +1,18 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "FUNCTIONS_EXTENSION_VERSION": "~2",
+    "WEBSITE_NODE_DEFAULT_VERSION": "~10",
+    "WEBSITE_RUN_FROM_PACKAGE": "1",
+    "KontentProjectId": "0ded0b6d-99ec-0224-05e5-cbb89f555eea",
+    "KontentManagementApiKey": "ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjBhNGJhYTNjYTIxMjRjMGJiZTJjNzg2ZTkzNTU3ZTBkIiwNCiAgImlhdCI6ICIxNTk1Mzk2NjMwIiwNCiAgImV4cCI6ICIxOTQwOTk2NjMwIiwNCiAgInByb2plY3RfaWQiOiAiMGRlZDBiNmQ5OWVjMDIyNDA1ZTVjYmI4OWY1NTVlZWEiLA0KICAidmVyIjogIjIuMS4wIiwNCiAgInVpZCI6ICI1ZDc5Yjc4OTAwN2U1OTBkZjRiNjZhZDciLA0KICAiYXVkIjogIm1hbmFnZS5rZW50aWNvY2xvdWQuY29tIg0KfQ.qM2xB6hSrB6BBXn46nrncSmvKGNoZZMF_uZe_uzHAt4",
+    "KontentTranslationPendingWorkflowStepId": "2019bf96-62e7-4eab-8348-6d5339a894a5",
+    "KontentTranslationReviewWorkflowStepId": "72e4f613-17ad-4cb9-9c2f-5907124473af",
+    "KontentPublishedWorkflowStepId": "c199950d-99f0-4983-b711-6c4c91624b22",
+    "KontentTranslationSnippetCodename": "translation",
+    "KontentTranslationElementCodename": "translation__translaton_settings",
+    "AzureTranslatorTextEndpoint": "https://api.cognitive.microsofttranslator.com/",
+    "AzureTranslatorTextKey": "94869b7dd391418aab33bb9444939663"
+  }
+}
