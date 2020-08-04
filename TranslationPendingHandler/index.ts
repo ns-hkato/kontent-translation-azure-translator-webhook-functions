@@ -5,6 +5,7 @@ import * as KontentHelpers from '../Helpers/kontentHelpers'
 import * as TranslationHelper from '../Helpers/translationHelper'
 import * as WebhookHelpers from '../Helpers/webhookHelpers'
 import * as Models from '../Models'
+import { url } from 'inspector'
 
 // We don't want to break Azure's template, so we're disabling some rules
 // tslint:disable-next-line: typedef only-arrow-functions
@@ -90,6 +91,7 @@ async function translateLanguageVariant(
   const contentItem = await KontentHelpers.getContentItemById(defaultLanguageVariant.item.id)
   const contentType = await KontentHelpers.getContentType(contentItem.type.id)
   const translatableElementIds = getTranslatableElementIds(contentType.elements)
+  const urlslugIds = getUrlSlugIds(contentType.elements)
   const translatableElementValues = getTranslatableElementValues(
     defaultLanguageVariant.elements,
     translatableElementIds
@@ -99,11 +101,15 @@ async function translateLanguageVariant(
   const translatedElementValues = await TranslationHelper.translate(translatableElementValues, currentLanguage.codename)
 
   // Combine the translated and untranslated element values
-  const untranslatedElementValues = getUntranslatableElementValues(
+  let untranslatedElementValues = getUntranslatableElementValues(
     defaultLanguageVariant.elements,
-    translatableElementIds
+    translatableElementIds,
+    urlslugIds
   )
+  
+//  untranslatedElementValues = serUrlslugParam(untranslatedElementValues, urlslugIds)
   const elementValuesCombined = [...translatedElementValues, ...untranslatedElementValues]
+//  const elementValuesCombined = [...translatedElementValues]
 
   // Upsert LV to save translation
   await KontentHelpers.upsertLanguageVariant(
@@ -124,6 +130,10 @@ function getTranslatableElementIds(elements: ElementModels.ElementModel[]): stri
   return elements.filter(element => element.type === 'text' || element.type === 'rich_text').map(element => element.id)
 }
 
+function getUrlSlugIds(elements: ElementModels.ElementModel[]): string[] {
+  return elements.filter(element => element.type === 'url_slug').map(element => element.id)
+}
+
 function getTranslatableElementValues(
   elementValues: ElementModels.ContentItemElement[],
   elementIds: string[]
@@ -135,10 +145,12 @@ function getTranslatableElementValues(
 
 function getUntranslatableElementValues(
   elementValues: ElementModels.ContentItemElement[],
-  elementIds: string[]
+  elementIds: string[],
+  urlSlugIds: string[] 
 ): ElementModels.ContentItemElement[] {
   return elementValues.filter(element => {
-    return element.element.id ? !elementIds.includes(element.element.id) : false
+    return element.element.id ? !elementIds.includes(element.element.id) &&
+      !urlSlugIds.includes(element.element.id) : false
   })
 }
 
